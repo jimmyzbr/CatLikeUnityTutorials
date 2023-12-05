@@ -440,6 +440,10 @@ PrefabInstance:
       propertyPath: ZSize
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3753513066816661360, guid: de26e112ba8829641b2516b67ebd9102, type: 3}
+      propertyPath: roundness
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3753513066816661361, guid: de26e112ba8829641b2516b67ebd9102, type: 3}
       propertyPath: m_Name
       value: RoundedCube

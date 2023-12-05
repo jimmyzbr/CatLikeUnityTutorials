@@ -19,10 +19,19 @@ public class SimpleCube : MonoBehaviour
     /// cube顶点数组
     /// </summary>
     private Vector3[] mVertices;
-
+    /// <summary>
+    /// 顶点法线数组
+    /// </summary>
+    private Vector3[] mNormals;
     private int mButtomVetexStartIndex;
     private int mTopVetexStartIndex;
     private int mTotalVetexNum;
+
+
+    /// <summary>
+    /// 圆度的半径
+    /// </summary>
+    public float roundness = 0.5f;
     
     /// <summary>
     /// cube的顶点索引
@@ -57,6 +66,7 @@ public class SimpleCube : MonoBehaviour
 
         mVertices = new Vector3[cornerVertexNum + edgeVertexNum + innerFaceVertexNum];
 
+        mNormals = new Vector3[mVertices.Length];
         
         
         int vIndex = 0;  //顶点的索引
@@ -126,6 +136,7 @@ public class SimpleCube : MonoBehaviour
 
         mVertices = new Vector3[cornerVertexNum + edgeVertexNum + innerFaceVertexNum];
 
+        mNormals = new Vector3[mVertices.Length];
         
         int vIndex = 0;  //顶点的索引
         
@@ -134,21 +145,25 @@ public class SimpleCube : MonoBehaviour
         {
             for (int x = 0; x <= XSize; x++)
             {
-                mVertices[vIndex++] = new Vector3(x, y, 0);
+                //mVertices[vIndex++] = new Vector3(x, y, 0);
+                SetVertex(vIndex++, x, y, 0);
             }
             for (int z = 1; z <= ZSize; z++)
             {
-                mVertices[vIndex++] = new Vector3(XSize, y, z);
+                //mVertices[vIndex++] = new Vector3(XSize, y, z);
+                SetVertex(vIndex++, XSize, y, z);
             }
         
             for (int x = XSize -1; x >= 0; x--)
             {
-                mVertices[vIndex++] = new Vector3(x, y, ZSize);
+                //mVertices[vIndex++] = new Vector3(x, y, ZSize);
+                SetVertex(vIndex++, x, y, ZSize);
             }
         
             for (int z = ZSize -1; z >= 1; z--)
             {
-                mVertices[vIndex++] = new Vector3(0, y, z);
+               // mVertices[vIndex++] = new Vector3(0, y, z);
+               SetVertex(vIndex++, 0, y, z);
             }
         }
 
@@ -158,7 +173,8 @@ public class SimpleCube : MonoBehaviour
         {
             for (int x = 1; x <= XSize -1 ; x++)
             {
-                mVertices[vIndex++] = new Vector3(x, 0, z);
+                //mVertices[vIndex++] = new Vector3(x, 0, z);
+                SetVertex(vIndex++, x, 0, z);
             }
         }
         
@@ -168,12 +184,62 @@ public class SimpleCube : MonoBehaviour
         {
             for (int x = 1; x <= XSize -1 ; x++)
             {
-                mVertices[vIndex++] = new Vector3(x, YSize, z);
+                //mVertices[vIndex++] = new Vector3(x, YSize, z);
+                SetVertex(vIndex++, x, YSize, z);
             }
         }
         
         mTotalVetexNum = vIndex;
     }
+
+    /// <summary>
+    /// 设置顶点的坐标
+    /// </summary>
+    /// <param name="vIndex"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    void SetVertex(int vIndex, int x, int y, int z)
+    {
+        Vector3 inner =  mVertices[vIndex] = new Vector3(x, y, z);
+       
+        //计算每个顶点的法线
+        //X方向
+        if (x < roundness)
+        {
+            inner.x = roundness;
+        }
+        else if (x > XSize - roundness)
+        {
+            inner.x = XSize - roundness;
+        }
+        
+        //y方向
+        if (y < roundness)
+        {
+            inner.y = roundness;
+        }
+        else if (y > YSize - roundness)
+        {
+            inner.y = YSize - roundness;
+        }
+        
+        //Z方向
+        if (z < roundness)
+        {
+            inner.z = roundness;
+        }
+        else if (z > ZSize - roundness)
+        {
+            inner.z = ZSize - roundness;
+        }
+        
+        //顶点法线
+        mNormals[vIndex] = (mVertices[vIndex] - inner).normalized;
+        mVertices[vIndex] = inner + mNormals[vIndex] * roundness;  //这里乘以的是圆度的半径
+
+    }
+    
 
     /// <summary>
     /// 创建三角形索引
@@ -416,10 +482,15 @@ public class SimpleCube : MonoBehaviour
         if (mVertices == null)
             return;
 
-        Gizmos.color = Color.blue;
+     
         for (int i = 0; i < mVertices.Length; i++)
         {
+            Gizmos.color = Color.blue;
             Gizmos.DrawSphere(mVertices[i],0.1f);
+            
+            //绘制法线
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(mVertices[i],mNormals[i]);
         }
     }
 }
