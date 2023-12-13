@@ -387,6 +387,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoundedCubeSubMesh
       objectReference: {fileID: 0}
+    - target: {fileID: 3753513066816661361, guid: de26e112ba8829641b2516b67ebd9102, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3753513066816661362, guid: de26e112ba8829641b2516b67ebd9102, type: 3}
       propertyPath: m_Materials.Array.size
       value: 3
