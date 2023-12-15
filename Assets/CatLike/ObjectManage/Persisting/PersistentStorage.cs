@@ -15,6 +15,13 @@ namespace ObjectManagerDemo
         //数据保存的路径
         public string savePath;
 
+        public int SaveVersion
+        {
+            set { mSaveVersion = value; }
+        }
+
+        private int mSaveVersion;
+        
         private void Awake()
         {
             savePath = Path.Combine(Application.persistentDataPath, "saveData.dat");
@@ -25,7 +32,7 @@ namespace ObjectManagerDemo
         {
             using (var writer = new BinaryWriter(File.Open(savePath,FileMode.Create)))
             {
-                obj.Save(new GameDataWriter(writer));
+                obj.Save(new GameDataWriter(writer,mSaveVersion));
             }
         }
         

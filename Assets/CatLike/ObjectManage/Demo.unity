@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457972029}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -26.93}
+  m_LocalPosition: {x: 0, y: 1, z: -18.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -331,6 +331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b704cdc8f5c72f34895a6a0bda111554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveVersion: 1
+  shapeFactory: {fileID: 11400000, guid: 3744413cae6765f4ea9fb3ae38a37108, type: 2}
   persisStorage: {fileID: 0}
   prefab: {fileID: 549906631880796005, guid: 38abb56d67f689f44a9c175b66168c44, type: 3}
   createKey: 99

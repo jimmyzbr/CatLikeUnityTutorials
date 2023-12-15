@@ -11,7 +11,9 @@ namespace ObjectManagerDemo
     /// </summary>
     public class GameDemo : PersistableObject
     {
-        // Start is called before the first frame update
+        public int saveVersion = 1;
+        
+        public MyShapeFactory shapeFactory;
 
         /// <summary>
         /// 持久化存储对象,负责保存一个PersistableObject状态数据到文件中
@@ -27,11 +29,12 @@ namespace ObjectManagerDemo
         
         public KeyCode loadKey = KeyCode.L;
 
-        private List<Transform> mCreatedObjects = new List<Transform>();
+        private List<MyShape> mCreatedShapes = new List<MyShape>();
 
         private void Awake()
         {
             persisStorage = GetComponent<PersistentStorage>();
+            persisStorage.SaveVersion = saveVersion;
         }
 
         // Update is called once per frame
@@ -60,23 +63,24 @@ namespace ObjectManagerDemo
         /// </summary>
         void CreateObject()
         {
-            var cubeTrans = Instantiate(prefab).transform;
+            var shape = shapeFactory.GetRandom();
+            var cubeTrans = shape.transform;
             //位置在一个半径为5米球内
             cubeTrans.localPosition = Random.insideUnitSphere * 5f;
             cubeTrans.localRotation = Random.rotation;
             cubeTrans.localScale = Random.Range(0.2f, 1.5f) * Vector3.one;
         
-            mCreatedObjects.Add(cubeTrans);
+            mCreatedShapes.Add(shape);
         }
         
         void NewGame()
         {
-            foreach (var objTrans in mCreatedObjects)
+            foreach (var objTrans in mCreatedShapes)
             {
                 GameObject.Destroy(objTrans.gameObject);
             }
             
-            mCreatedObjects.Clear();
+            mCreatedShapes.Clear();
             
         }
         
@@ -100,16 +104,27 @@ namespace ObjectManagerDemo
         /// <param name="reader"></param>
         public override void Load(GameDataReader reader)
         {
+            //读取version
+            int version = -reader.ReadInt();
+            if (version > saveVersion)
+            {
+                Debug.LogError("数据版本号过高,不支持");
+                return;
+            }
+            
             //读取对象个数
-            int nCount = reader.ReadInt();
+            int nCount = version < 0 ? version: reader.ReadInt();
             //依次实例化每个cube对象  并从文件中加载之前保存的对象信息
             for (int i = 0; i < nCount; i++)
             {
-                PersistableObject persisObject = Instantiate(prefab).GetComponent<PersistableObject>();
+                int shapeId = version > 0 ? reader.ReadInt() : 0;
+                int matId = reader.ReadInt();
+                Color col = reader.ReadColor();
+                MyShape persisObject = shapeFactory.GetShape(shapeId,col,matId);
                 persisObject.Load(reader);
                 
                 //加入到列表中
-                mCreatedObjects.Add(persisObject.transform);
+                mCreatedShapes.Add(persisObject);
             }
         }
     
@@ -120,12 +135,12 @@ namespace ObjectManagerDemo
         public override void Save(GameDataWriter writer)
         {
             //先写入cube数量
-            writer.WriteInt(mCreatedObjects.Count);
+            writer.WriteInt(mCreatedShapes.Count);
             //依次调用每一个PersistableObject对象的save方法保存
-            foreach (var cube in mCreatedObjects)
+            foreach (var cube in mCreatedShapes)
             {
-                var persisObject = cube.GetComponent<PersistableObject>();
-                persisObject.Save(writer);
+                var shape = cube.GetComponent<MyShape>();
+                shape.Save(writer);
             }
         }
     }

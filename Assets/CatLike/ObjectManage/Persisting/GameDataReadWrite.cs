@@ -40,15 +40,27 @@ namespace ObjectManagerDemo
 
             return q;
         }
+
+        public Color ReadColor()
+        {
+            Color col;
+            col.r = mReader.ReadByte() / 255.0f;
+            col.g = mReader.ReadByte()  / 255.0f;
+            col.b = mReader.ReadByte() / 255.0f;
+            col.a = mReader.ReadByte() / 255.0f;
+
+            return col;
+        }
     }
     
     
     public class GameDataWriter
     {
         private BinaryWriter mWriter;
-        public GameDataWriter(BinaryWriter writer)
+        public GameDataWriter(BinaryWriter writer,int saveVersion)
         {
             mWriter = writer;
+            WriteInt(-saveVersion);
         }
 
         public void WriteInt(int v)
@@ -69,6 +81,14 @@ namespace ObjectManagerDemo
             mWriter.Write(q.y);
             mWriter.Write(q.z);
             mWriter.Write(q.w);
+        }
+
+        public void WriteColor(Color col)
+        {
+            mWriter.Write((byte)(col.r * 255.0f));
+            mWriter.Write((byte)(col.g * 255.0f));
+            mWriter.Write((byte)(col.b * 255.0f));
+            mWriter.Write((byte)(col.a * 255.0f));
         }
     }
 }
