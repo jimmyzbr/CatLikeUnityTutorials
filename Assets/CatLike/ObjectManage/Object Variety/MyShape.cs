@@ -4,8 +4,7 @@ namespace ObjectManagerDemo
 {
     public class MyShape : PersistableObject
     {
-        static int colorPropertyId = Shader.PropertyToID("_Color");
-        
+ 
         private int mShapeId = -1;
 
         public int ShapeId
@@ -45,7 +44,8 @@ namespace ObjectManagerDemo
         /// 使用共享的mpb
         /// </summary>
         private static MaterialPropertyBlock s_mpb;
-        
+        static int colorPropertyId = Shader.PropertyToID("_Color");
+
         public void SetColor(Color color)
         {
             mColor = color;
