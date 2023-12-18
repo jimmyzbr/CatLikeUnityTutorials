@@ -91,6 +91,7 @@ public class MyMovingSphere : MonoBehaviour
         //但这也削弱了我们对球体的控制。就像我们在开车而不是走路。在大多数游戏中，
         //玩家都需要更直接地控制速度，所以让我们回到这一方法。然而，加速度的应用确实产生了更平滑的运动。
 
+        //移动方向
         playerInput = Vector2.ClampMagnitude(playerInput, 1);
         //期望的速度
         var desiredVelocity = new Vector3(playerInput.x, 0, playerInput.y) * MaxSpeed;
@@ -128,7 +129,6 @@ public class MyMovingSphere : MonoBehaviour
         // }
         
         //对于超出边缘的球,减去它在碰撞方向上的速度,使之可以在另外一个方向上继续沿着边缘移动
-       
         if (newPosition.x > AllowArea.xMax)
         {
             newPosition.x = AllowArea.xMax;
