@@ -15,13 +15,15 @@ namespace ObjectManagerDemo
         
         public MyShapeFactory shapeFactory;
 
+        [SerializeField]
+        private ASpawnZone spawnZone;
+        
         /// <summary>
         /// 持久化存储对象,负责保存一个PersistableObject状态数据到文件中
         /// </summary>
         public PersistentStorage persisStorage;
-        
-        public Transform prefab;
 
+        
         public KeyCode createKey = KeyCode.C;
         public KeyCode newGameKey = KeyCode.N;
 
@@ -66,7 +68,7 @@ namespace ObjectManagerDemo
             var shape = shapeFactory.GetRandom();
             var cubeTrans = shape.transform;
             //位置在一个半径为5米球内
-            cubeTrans.localPosition = Random.insideUnitSphere * 5f;
+            cubeTrans.localPosition = spawnZone.SpawnPoint;
             cubeTrans.localRotation = Random.rotation;
             cubeTrans.localScale = Random.Range(0.2f, 1.5f) * Vector3.one;
         
