@@ -1,4 +1,5 @@
 ﻿using System;
+using EasyKit.ECS;
 using UnityEngine;
 
 namespace EasyKit
@@ -38,6 +39,7 @@ namespace EasyKit
             Debug.Log("===================== on Init");
             ModuleManager.CreateModule<CoroutineManager>();
             ModuleManager.CreateModule<TimerManager>(true);
+            ModuleManager.CreateModule<GameManager>(true);
         }
         
         protected override void OnAwake()
