@@ -33,10 +33,17 @@ namespace ObjectManagerDemo
 
         private List<MyShape> mCreatedShapes = new List<MyShape>();
 
+        public Camera UICamera;
+
+        public Camera MainCamera;
+
         private void Awake()
         {
             persisStorage = GetComponent<PersistentStorage>();
             persisStorage.SaveVersion = saveVersion;
+            
+            Debug.Log("gravity = " +  Physics.gravity);
+            Physics.gravity = new Vector3(0, 0, 9.81f);
         }
 
         // Update is called once per frame
@@ -67,10 +74,13 @@ namespace ObjectManagerDemo
         {
             var shape = shapeFactory.GetRandom();
             var cubeTrans = shape.transform;
+            
+            cubeTrans.SetParent(spawnZone.transform);
+            
             //位置在一个半径为5米球内
             cubeTrans.localPosition = spawnZone.SpawnPoint;
             cubeTrans.localRotation = Random.rotation;
-            cubeTrans.localScale = Random.Range(0.2f, 1.5f) * Vector3.one;
+            cubeTrans.localScale = Random.Range(0.5f, 0.7f) * Vector3.one;
         
             mCreatedShapes.Add(shape);
         }
@@ -123,6 +133,9 @@ namespace ObjectManagerDemo
                 int matId = reader.ReadInt();
                 Color col = reader.ReadColor();
                 MyShape persisObject = shapeFactory.GetShape(shapeId,col,matId);
+                
+                persisObject.transform.SetParent(spawnZone.transform);
+                
                 persisObject.Load(reader);
                 
                 //加入到列表中
