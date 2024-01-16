@@ -13,15 +13,18 @@ namespace ObjectManagerDemo
         [SerializeField]
         bool surfaceOnly;
         
-        public override Vector3 SpawnPoint {
+        public override Vector3 SpawnPoint 
+        {
             get
             {
                 //在单位立方体内随机一个点
+
+                Vector3 localScale = transform.localScale;
                 Vector3 localPos;
-                localPos.x = Random.Range(-0.5f, 0.5f);
-                localPos.y = Random.Range(-0.5f, 0.5f);
-                localPos.z = Random.Range(-0.5f, 0.5f);
-                
+                localPos.x = Random.Range(-0.5f, 0.5f) * localScale.x;
+                localPos.y = Random.Range(-0.5f, 0.5f) * localScale.y;
+                localPos.z = Random.Range(0.2f, 0.5f); 
+                //localPos.z = 0;
                 if (surfaceOnly)
                 {
                     int axis = Random.Range(0, 3); //随机一个轴
@@ -30,7 +33,8 @@ namespace ObjectManagerDemo
                 }
                 
                 //把随机出来的点从SpawnZone的局部坐标变换到世界坐标
-                return transform.TransformPoint(localPos);
+                //return transform.TransformPoint(localPos);
+                return localPos;
             }
         }
 

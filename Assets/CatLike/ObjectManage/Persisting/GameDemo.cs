@@ -17,6 +17,9 @@ namespace ObjectManagerDemo
 
         [SerializeField]
         private ASpawnZone spawnZone;
+
+        public Transform ItemRoots;
+        
         
         /// <summary>
         /// 持久化存储对象,负责保存一个PersistableObject状态数据到文件中
@@ -75,12 +78,12 @@ namespace ObjectManagerDemo
             var shape = shapeFactory.GetRandom();
             var cubeTrans = shape.transform;
             
-            cubeTrans.SetParent(spawnZone.transform);
+            cubeTrans.SetParent(ItemRoots);
             
             //位置在一个半径为5米球内
             cubeTrans.localPosition = spawnZone.SpawnPoint;
             cubeTrans.localRotation = Random.rotation;
-            cubeTrans.localScale = Random.Range(0.5f, 0.7f) * Vector3.one;
+            cubeTrans.localScale = Vector3.one * Random.Range(7f, 12f);
         
             mCreatedShapes.Add(shape);
         }
@@ -134,7 +137,7 @@ namespace ObjectManagerDemo
                 Color col = reader.ReadColor();
                 MyShape persisObject = shapeFactory.GetShape(shapeId,col,matId);
                 
-                persisObject.transform.SetParent(spawnZone.transform);
+                persisObject.transform.SetParent(ItemRoots);
                 
                 persisObject.Load(reader);
                 
