@@ -44,7 +44,7 @@ namespace ObjectManagerDemo
         /// 使用共享的mpb
         /// </summary>
         private static MaterialPropertyBlock s_mpb;
-        static int colorPropertyId = Shader.PropertyToID("_Color");
+        static int colorPropertyId = Shader.PropertyToID("_BaseColor");
 
         public void SetColor(Color color)
         {
