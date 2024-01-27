@@ -81,7 +81,7 @@ namespace CatLike.HexMap.Codes
             cellLabel.name = cell.HexCoord.ToString();
             TMP_Text tmpText = cellLabel.GetComponent<TMP_Text>();
             tmpText.rectTransform.anchoredPosition = new Vector2(cellLocalPos.x, cellLocalPos.z);
-            tmpText.text = cell.HexCoord.ToString() + "\n " + cellIndex ;
+            tmpText.text = cell.HexCoord.ToString() + "\ncell: " + cellIndex ;
             
         }
 
@@ -107,7 +107,7 @@ namespace CatLike.HexMap.Codes
             HexCoord coord = HexCoord.FromPosition(touchPos);
             Debug.Log("touchPos:" + touchPos + "coord: " + coord);
             
-            //计算点击的cell index
+            //计算点击的cell index 注意:随着Z坐标每增加2 X坐标会减1
             int index = coord.X + coord.Z * width + coord.Z / 2;
             //修改颜色 重建GridMesh
             HexCell clickedCell = mCells[index];

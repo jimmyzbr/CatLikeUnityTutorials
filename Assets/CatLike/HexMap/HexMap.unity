@@ -254,7 +254,7 @@ MonoBehaviour:
   CellLablePrefab: {fileID: 5491440880863123769, guid: 8f67d62ce2334254fb9917d0e29adf4c, type: 3}
   GridCanvas: {fileID: 1704204144}
   defaultColor: {r: 0.15663938, g: 0.6037736, b: 0.5099011, a: 1}
-  TouchColor: {r: 0, g: 0, b: 1, a: 1}
+  TouchColor: {r: 0.9056604, g: 0.6400894, b: 0.13243146, a: 1}
 --- !u!4 &249939931
 Transform:
   m_ObjectHideFlags: 0
