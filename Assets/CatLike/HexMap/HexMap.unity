@@ -248,13 +248,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5084886f359448daf2026f9f9b421d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 6
-  height: 6
+  GridWidth: 6
+  GridHeight: 6
   CellPrefab: {fileID: 3102560051351663712, guid: 6baaaec4a8d99b94a9a55f8f7d9f8561, type: 3}
   CellLablePrefab: {fileID: 5491440880863123769, guid: 8f67d62ce2334254fb9917d0e29adf4c, type: 3}
   GridCanvas: {fileID: 1704204144}
-  defaultColor: {r: 0.15663938, g: 0.6037736, b: 0.5099011, a: 1}
+  DefaultColor: {r: 1, g: 1, b: 1, a: 1}
   TouchColor: {r: 0.9056604, g: 0.6400894, b: 0.13243146, a: 1}
+  ColorList:
+  - {r: 0, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0.44686317, b: 1, a: 0}
+  - {r: 1, g: 0.8880198, b: 0.0047169924, a: 0}
+  - {r: 1, g: 1, b: 1, a: 0}
 --- !u!4 &249939931
 Transform:
   m_ObjectHideFlags: 0
@@ -470,14 +475,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302719428}
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 100, z: -100}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 30, y: 100, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &1302719432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +563,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704204140}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 

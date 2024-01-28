@@ -31,6 +31,32 @@ namespace CatLike.HexMap.Codes
             new Vector3(0,0,outerRadius), //形成一个环 最后一个顶点和第一个顶点重合
         };
 
+        /// <summary>
+        /// 根据方向获取该方向上的第一个角的坐标
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public static Vector3 GetFirstConner(HexDirection dir)
+        {
+            return corners[(int)dir];
+        }
+
+        /// <summary>
+        /// 根据方向获取该方向上的第二个角的坐标
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public static Vector3 GetSecondConner(HexDirection dir)
+        {
+            return corners[(int)dir + 1];
+        }
+
+        public static Vector3[] GetConners(HexDirection dir)
+        {
+            return new Vector3[] { corners[(int)dir], corners[(int)dir + 1] };
+        }
+        
+
     }
 
 }
