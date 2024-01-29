@@ -102,6 +102,13 @@ namespace CatLike.HexMap.Codes
             return offsetToEdge * blendFactor;
         }
         
+        public static Vector3 GetBridgeLong(HexDirection dir)
+        {
+            var connerFirst = GetFirstConner(dir);
+            var connerSecond = GetSecondConner(dir);
+            var offsetToEdge = (connerFirst + connerSecond);
+            return offsetToEdge * blendFactor;
+        }
 
     }
 

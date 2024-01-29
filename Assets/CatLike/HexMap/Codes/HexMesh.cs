@@ -43,9 +43,12 @@ namespace CatLike.HexMap.Codes
                 var cell = cells[i];
                 //每个cell创建6个三角形
                 //TriangulateCells(cell);
+                
                 //TriangulateCellByDirection(cell);
-
-                TriangulateSolidCellByDirection(cell);
+              
+                //TriangulateSolidCellByDirection(cell);
+                
+                TriangulateCellFinal(cell);
             }
             
 
@@ -197,7 +200,77 @@ namespace CatLike.HexMap.Codes
             }
         }
 
+        void TriangulateCellFinal(HexCell cell)
+        {
+            //生成内部的实体六边形
+            for (var direction = HexDirection.NE; direction <= HexDirection.NW ; direction++)
+            {
+                //构建内部三角形和连接器
+                TriangulateAtDirection(cell, direction);
+            }
+        }
 
+        /// <summary>
+        /// 在某个方向上构建六边形Cell和对应混合区域
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="direction"></param>
+        void TriangulateAtDirection(HexCell cell, HexDirection direction)
+        {
+            var center = cell.transform.localPosition;
+            var v1 = center + HexMetrics.GetFirstSolidConner(direction);
+            var v2 = center + HexMetrics.GetSecondSolidConner(direction);
+            Color[] colors = { cell.CellColor, cell.CellColor, cell.CellColor };
+            AddTriangle(center, v1, v2, colors);
+
+            //只需要在三个方向上绘制矩阵连接区域 （NE E SE）
+           // if(direction <= HexDirection.SE)
+                TriangulateConnector(cell, direction, v1, v2);
+        }
+
+        /// <summary>
+        /// 绘制两个相邻cell之间的矩形连接区域
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="direction"></param>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        void TriangulateConnector(HexCell cell, HexDirection direction, Vector3 v1, Vector3 v2)
+        {
+            var bridge = HexMetrics.GetBridgeLong(direction);
+            var v3 = v1 + bridge;
+            var v4 = v2 + bridge;
+            
+            //没有相邻的格子、就不再绘制连接器了
+            HexCell neighborCell = cell.GetNeighborCell(direction);
+            if (neighborCell == null)
+            {
+                // var center = cell.transform.localPosition;
+                // v3 = center + HexMetrics.GetFirstConner(direction);
+                // v4 = center + HexMetrics.GetSecondConner(direction);
+                // var cellColor = cell.CellColor;
+                // AddQuad(v1,v2,v3,v4, new []{cellColor,cellColor,cellColor,cellColor});
+                
+                return;
+            }
+
+
+            Color[] colors = { cell.CellColor,cell.CellColor,neighborCell.CellColor,neighborCell.CellColor };
+            AddQuad(v1, v2, v3, v4, colors);
+            
+            //绘制当前cell 、neighborCell和neighborNextCell共享的三角形
+            //下一个方向的相邻格子
+            HexCell nextNeighborCell = cell.GetNeighborCell(direction.Next());
+            //因为三个单元格共享一个三角形连接，所以我们只需要为两个连接添加它们。所以只要NE和E就可以了
+            if (nextNeighborCell != null && (direction == HexDirection.NE || direction == HexDirection.E))
+            {
+                Vector3 next = v2 + HexMetrics.GetBridgeLong(direction.Next());
+                Color[] colorsTri = { cell.CellColor,neighborCell.CellColor,nextNeighborCell.CellColor};
+                AddTriangle(v2,v4,next,colorsTri);
+            }
+        }
+        
+        
         /// <summary>
         /// 获取Cell某个方向上混合之后的三角形颜色
         /// </summary>
