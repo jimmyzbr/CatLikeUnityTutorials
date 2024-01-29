@@ -61,7 +61,7 @@ namespace CatLike.HexMap.Codes
 
             if (iX + iY + iZ != 0)
             {
-                Debug.LogError("rounding error");
+                Debug.LogWarning("rounding error");
                 //丢弃四舍五入增量最大的坐标,用其他另外两个坐标重新计算HexCoord
                 float dX = Mathf.Abs(x - iX);
                 float dY = Mathf.Abs(y - iY);
